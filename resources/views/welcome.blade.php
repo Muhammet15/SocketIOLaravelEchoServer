@@ -1,30 +1,20 @@
-<!DOCTYPE html>
-<html>
+<!DO CTYPE html>
+<html lang="en">
 <head>
+    <meta  charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Users</title>
 </head>
 <body>
-    <h1>Online Users</h1>
-    <ul id="online-users"></ul>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <h2>Online Users:</h2>
+    <ul id="online-users">
+        <!-- Online users will be displayed here dynamically -->
+    </ul>
+    @vite(['resources/js/app.js'])
     <script>
-        const socket = io('http://localhost:6001'); // Laravel Echo Server'ın adresi
 
-        socket.on('connect', () => {
-            console.log('Connected to Socket.io server');
-        });
-        console.log(this.echo);
-        socket.on('laravel_database_user.status.updated', data => {
-            const onlineUsersList = document.getElementById('online-users');
-            onlineUsersList.innerHTML = '';
 
-            data.forEach(userId => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `User ${userId} is online`;
-                onlineUsersList.appendChild(listItem);
-            });
-        });
+
     </script>
 </body>
 </html>

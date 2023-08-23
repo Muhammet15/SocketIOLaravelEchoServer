@@ -24,6 +24,13 @@ class UserStatusUpdated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('user.'.$this->userId);
+        return new Channel('online_users');
+    }
+    public function broadcastWith()
+    {
+        return [
+            'user_id' => $this->userId,
+            'isOnline' => $this->isOnline
+        ];
     }
 }

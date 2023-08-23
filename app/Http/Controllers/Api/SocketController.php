@@ -14,16 +14,19 @@ class SocketController extends Controller
     public function updateUserStatus(Request $request)
     {
         $user = Auth::user();
-        // $isOnline = $request->input('is_online');
-
-        if ($user) {
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+        try {
             $user->is_online = !$user->is_online;
             $user->save();
+            event(new UserStatusUpdated($user->id, $user->is_online));
+            return response()->json(['message' => 'User status updated successfully', 'is_online' => $user->is_online]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error updating user status'], 500);
         }
-        event(new UserStatusUpdated($user->id,  $user->is_online));
-
-        return response()->json(['message' => 'User status updated successfully','is_online'=>$user->is_online]);
     }
+
     /**
      * Handle a login request to the application.
      *
